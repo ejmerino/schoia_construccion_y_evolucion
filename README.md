@@ -13,7 +13,7 @@ Gracias a Docker Compose, la instalación es muy sencilla.
 
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [URL_DE_TU_REPO_AQUI]
+    git clone https://github.com/ejmerino/schoia_construccion_y_evolucion.git
     ```
 
 2.  **Acceder a la carpeta:**
