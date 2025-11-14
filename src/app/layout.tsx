@@ -1,10 +1,10 @@
 import './globals.css';
-import { Inter } from 'next/font/google';
+// import { Inter } from 'next/font/google'; // PASO 1: Comentamos esto
 import { ClientLayoutWrapper } from '@/components/layout/client-layout-wrapper';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+// const inter = Inter({ subsets: ['latin'], variable: '--font-inter' }); // PASO 2: Comentamos esto
 
 export const metadata: Metadata = {
   title: 'SchoIA+',
@@ -25,8 +25,15 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        
+        {/* PASO 3: Agregamos estos links para cargar la fuente Inter */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+
       </head>
-      <body className={`${inter.variable} font-body antialiased`}>
+      {/* PASO 4: Quitamos la variable de 'inter' del className */}
+      <body className="font-body antialiased">
         <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>

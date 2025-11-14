@@ -1,0 +1,32 @@
+# Versión del archivo Docker Compose
+version: '3.8'
+
+# Definición de los servicios (contenedores)
+services:
+  
+  # Este es tu frontend de Next.js
+  frontend:
+    # 1. Instrucción de construcción
+    build:
+      context: .  # Usa el Dockerfile en la carpeta actual
+      # 2. Argumentos de build (los que pasabas en el comando)
+      args:
+        NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyBKvl1fZIBTo6dt5ZA0-cx2gOLXb2Klauw"
+        NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "mallascurriculares-2de48.firebaseapp.com"
+        NEXT_PUBLIC_FIREBASE_PROJECT_ID: "mallascurriculares-2de48"
+        NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "mallascurriculares-2de48.appspot.com"
+        NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "116282303343"
+        NEXT_PUBLIC_FIREBASE_APP_ID: "1:116282303343:web:c3af8a57823d80ef357e9a"
+    
+    # 3. Nombre de la imagen que se creará
+    image: mallas-frontend
+    
+    # 4. Nombre del contenedor (reemplaza al --name)
+    container_name: mallas-frontend-app
+    
+    # 5. Mapeo de puertos (reemplaza al -p)
+    ports:
+      - "9002:3000"
+      
+    # 6. Reinicio automático (opcional, pero buena práctica)
+    restart: unless-stopped

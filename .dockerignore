@@ -1,0 +1,17 @@
+# Archivos de Docker
+Dockerfile
+.dockerignore
+
+# Dependencias locales (se instalan dentro del contenedor)
+node_modules
+
+# Artefactos de build de Next.js (se generan dentro del contenedor)
+.next
+
+# Archivos de entorno (se pasan de forma segura, no se copian)
+.env
+.env*
+
+# Git
+.git
+.gitignore
