@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check for admin roles
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['Admin', 'Superadmin'];
+    }
+
+    // --- Academic Data Rules ---
+    // Public read, only admins can write.
+    match /universidades/{universityId} {
+      allow read: if true;
+      allow write: if request.auth != null && isAdmin();
+
+      match /carreras/{careerId} {
+        allow read: if true;
+        allow write: if request.auth != null && isAdmin();
+
+        match /materias/{materiaId} {
+          allow read: if true;
+          allow write: if request.auth != null && isAdmin();
+        }
+      }
+    }
+    
+    // --- User Data Rules ---
+    // Users can only read/write their own progress
+    match /users/{userId}/progress/{careerId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Users can read/update their own profile. Admins can manage any profile.
+    match /users/{userId} {
+      allow create: if request.auth.uid == userId;
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow update: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      // Only Superadmins can delete users through this rule.
+      allow delete: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Superadmin';
+    }
+
+    // --- Contact Form Rules ---
+    // Any authenticated user can create. Only admins can read/delete.
+    match /contactSubmissions/{submissionId} {
+        allow create: if request.auth != null;
+        allow read, delete: if request.auth != null && isAdmin();
+        allow update: if false; // Disallow updates
+    }
+  }
+}
